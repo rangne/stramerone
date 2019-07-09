@@ -12,9 +12,9 @@ function get(req, res, ops){
     }
     
     else
-    if ( req.url === '/js/jome.js'){
+    if ( req.url === '/css/home.css'){
 
-        static.script(res, './view/js/home.js');
+        static.script(res, './view/css/home.css');
 
     }
     
