@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+
+function home(req, res, ops){
+    console.log('You are in Home');
+
+    var headers = {'Content-Type': 'text/html; charset=utf-8'}
+     
+    var path = './view/html/home.html';
+
+    fs.readFile(path, function(err, data){
+        if(!err){
+           res.writeHead(200, headers)
+           res.write(data)
+           //res.write('<input id="ctkn" type="hidden" value=' + csrf + ' />')
+        } else {
+            console.log('home',err);
+            res.writeHead(404)
+        }
+        res.end()
+    })
+    
+}
+
+function test(req, res, ops){
+    res.writeHead(200);
+    res.write(JSON.stringify({ id: '9dgfasdf79as79', info: 'getMethod'}));
+    res.end();
+}
+
+module.exports = {
+    home,
+    test
+}

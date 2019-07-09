@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+var route = require('./routes');
+var static = require('../utils/static');
+
+function get(req, res, ops){
+    
+    if(req.url === '/'){
+
+        route.home(req, res);
+
+    }
+    
+    else
+    if ( req.url === '/js/jome.js'){
+
+        static.script(res, './view/js/home.js');
+
+    }
+    
+    else {
+
+        res.end();
+        
+    }
+    
+}
+
+module.exports = get;
