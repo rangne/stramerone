@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+function script(res, path){
+    //var headers = {'Content-Type': 'text/javascript', 'X-Content-Type-Options': 'nosniff'};
+
+    fs.readFile(path, function(err, data){
+        if(!err){
+            console.log(data);
+           res.writeHead(200, {'Content-Type': 'text/javascript', 'X-Content-Type-Options': 'nosniff'});
+           res.write(data);
+           //res.write('<input id="ctkn" type="hidden" value=' + csrf + ' />')
+        } else {
+            console.log('home',err);
+            res.writeHead(404);
+        }
+        res.end()
+    })
+}
+
+module.exports = {
+    script
+}

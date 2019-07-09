@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+var db = require('../../database/connect');
+var model= require('../../database/models');
+var util = require('../utils/responses');
+var parser = require('../utils/parser');
+
+var usersCollection = db.collection('usuarios');
+
+function mobileLogin(req, res, ops){
+    var body = '';
+
+    /**handle body */
+    req.on('data', data => {    body += data;    });
+
+
+        /**Function target */
+        req.on('end', () => {
+            
+            body = parser.parseJson(body);
+
+            console.log('mobileLogin',body);
+
+            if(body !== null){
+                /**Search for user */
+                usersCollection.findOne({ 'email': body.email},'-image -role -user_ip -contrib -timestamp', function(err, doc){
+
+                    if(!doc){
+                        console.log('mobileLogin usuario no existe',err)
+                        console.log('IP:',req.connection.remoteAddress);
+                        util.jsonBadResponse(res, 401);
+                    } else {
+                        console.log('[BAD!]mobileLogin usuario existe')
+                        util.jsonResponse(res, 200, { id: '9dgfasdf79as79', info: 'postMethod'});
+                    }
+
+                })
+            } else {
+                /**Bad request */
+                util.jsonBadResponse(res, 400);
+            }
+
+        });
+
+}
+
+function mobileRegister(req, res, ops){
+    console.log('Post: mobileRegister');
+    var body = '';
+
+    /**handle body */
+    req.on('data', data => {    body += data;    });
+
+    /**Function target */
+    req.on('end', () => {
+        
+        
+        body = parser.parseJson(body);
+
+        /**Validating body */
+        if( body !== null ){
+
+            /**Checking availabilty of the info */
+            usersCollection.findOne({ 'email': body.email},'-imagen -role -ip -contrib -tiempo', function(err, doc){
+
+                if(!doc){
+
+                    /**The info is available to storage */
+                    console.log('mobileRegister:', 'info is available');
+                    var userInfo = util.createDatabaseUserInfoObject(req, body);
+                    
+                    var userModel = new model.User(userInfo);
+
+                    userModel.save((err, res) => {
+                        if (err) {
+
+                            /**Saving Error */
+                            console.log('[ERROR!]mobileRegister Error al intentar guardar',error);
+                            util.jsonBadResponse(res, 403);
+                            
+                        } else {
+
+                            /**Saved successfuly */
+                            console.log('mobileRegister El siguiente usuario se guard_o correctamente:', res.username);
+                            util.jsonResponse(res, 200, {id: res.user_id, username: res.username });
+
+                        }
+                    });
+
+                } else {
+
+                    /**The info is not available */
+                    console.log('[BAD!]mobileRegister:','Info not available. El usuario existe');
+                    util.jsonBadResponse(res, 401);
+
+                }
+
+            })
+
+
+        } else {
+            /**Bad request */
+            util.jsonBadResponse(res, 400);
+        }
+
+    });
+
+}
+
+module.exports = {
+    mobileLogin,
+    mobileRegister
+}

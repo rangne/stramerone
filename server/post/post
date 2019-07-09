@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+var route = require('./routes');
+
+function post(req, res, ops){
+    
+    if ( req.url === '/mobileLogin' )
+        route.mobileLogin(req, res, ops);
+
+    else
+    if( req.url === '/mobileRegister' )
+        route.mobileRegister(req, res, ops);
+
+
+
+    else
+        res.end();
+    
+}
+
+module.exports = post;

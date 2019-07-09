@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+
+/**     Utils     */
+    function jsonResponse(res, status, jsondata){
+        console.log('jsonResponse:','status ' + status);
+        res.writeHead(status);
+        res.write(JSON.stringify(jsondata));
+        res.end();
+    }
+
+    function jsonBadResponse(res, status){
+        console.log('[BAD!]jsonBadResponse:','status ' + status);
+        res.writeHead(status);
+        res.end();
+    }
+
+    function createDatabaseUserInfoObject(req, body){
+        var myObject = {
+            id: 'sdfgldskjg9',
+            email: body.email,
+            username: body.username,
+            password: body.password,
+            image: null,
+            role: 0,
+            ip: req.connection.remoteAddress,
+            contrib: true,
+            timestamp: Date()
+        };
+
+        console.log('userInfoObject', myObject);
+
+        return myObject;
+    }
+
+    function handleCredentials(client, server){
+
+    }
+
+module.exports = {
+    jsonResponse,
+    jsonBadResponse,
+    handleCredentials,
+    createDatabaseUserInfoObject
+}
