@@ -14,9 +14,12 @@ function get(req, res, ops){
     else
     if ( req.url === '/css/home.css'){
 
-        static.script(res, './view/css/home.css');
+        static.style(res, './view/css/home.css');
 
     }
+
+    else if(req.url === '/js/home.js')
+        static.script(res, './view/js/home.js');
     
     else {
 
