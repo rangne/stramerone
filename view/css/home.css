@@ -284,3 +284,17 @@ a{  color: black;
 #video {
     width: 100%;
 }
+
+#op {
+    cursor: pointer;
+    
+}
+
+.margin {
+    padding-top: 10px;
+}
+
+.item {
+    cursor: pointer;
+    margin-left: 30px;
+}

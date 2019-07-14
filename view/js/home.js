@@ -15,6 +15,7 @@ video.setAttribute('class', 'embed-container')
 
 op.addEventListener('click',function(){
     var item = document.createElement('span');
+    item.setAttribute('class', 'item');
     item.innerHTML = '893';
 
     item.addEventListener('click',function(){
